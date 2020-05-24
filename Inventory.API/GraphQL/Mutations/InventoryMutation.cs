@@ -17,11 +17,20 @@ namespace Inventory.API.GraphQL.Mutations
         {
             FieldAsync<ItemType>(
                 "createItem",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<ItemInputType>> { Name = "item" }),
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<CreateItemInputType>> { Name = "createItem" }),
                 resolve: async context =>
                 {
-                    var item = context.GetArgument<Item>("item");
+                    var item = context.GetArgument<Item>("createItem");
                     return await context.TryAsyncResolve(async c => (await itemRepo.Add(new List<Item> { item })).FirstOrDefault() );
+                }
+            );
+            FieldAsync<ItemType>(
+                "updateItem",
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<UpdateItemInputType>> { Name = "updateItem" }),
+                resolve: async context =>
+                {
+                    var item = context.GetArgument<Item>("updateItem");
+                    return await context.TryAsyncResolve(async c => (await itemRepo.Update(new List<Item> { item })).FirstOrDefault());
                 }
             );
         }
