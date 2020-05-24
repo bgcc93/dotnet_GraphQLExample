@@ -11,6 +11,7 @@ using Bootstrapper_Inventory;
 using API_Inventory.GraphQL;
 using API_Inventory.GraphQL.Queries;
 using GraphQL;
+using Inventory.API.GraphQL.Mutations;
 
 namespace API_Inventory
 {
@@ -30,6 +31,7 @@ namespace API_Inventory
             DependencyInjection.SetUpDependencies(services);
 
             services.AddScoped<InventoryQuery>();
+            services.AddScoped<InventoryMutation>();
             services.AddScoped<InventorySchema>();
 
             services.AddGraphQL(o => { o.ExposeExceptions = true; })

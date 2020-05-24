@@ -22,10 +22,20 @@ namespace Infra_Inventory
             };
         }
 
-        public Task Add(List<Item> items)
+        public Task<List<Item>> Add(List<Item> items)
         {
+            items.ForEach(x => {
+                var itemId = Guid.NewGuid();
+                x.Id = itemId;
+                x.DateCreated = DateTime.Now;
+                x.Movements?.ForEach(y => {
+                    y.Id = Guid.NewGuid();
+                    y.ItemId = itemId;
+                    y.DateCreated = DateTime.Now;
+                });
+            });
             this.items.AddRange(items);
-            return Task.FromResult(true);
+            return Task.FromResult(items);
         }
 
         public Task<List<Item>> GetAll()
@@ -39,11 +49,12 @@ namespace Infra_Inventory
             return Task.FromResult(true);
         }
 
-        public Task Update(List<Item> updatedItems)
+        public Task<List<Item>> Update(List<Item> updatedItems)
         {
-            this.items.RemoveAll(x => updatedItems.Select(y => y.Id).Contains(x.Id));
+            var count = this.items.RemoveAll(x => updatedItems.Select(y => y.Id).Contains(x.Id));
+            if(count == 0) { return Task.FromResult(new List<Item>()); }
             this.items.AddRange(updatedItems);
-            return Task.FromResult(true);
+            return Task.FromResult(updatedItems);
         }
     }
 }

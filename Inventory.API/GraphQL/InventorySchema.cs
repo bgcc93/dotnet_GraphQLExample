@@ -3,6 +3,7 @@ using System;
 using GraphQL.Types;
 using GraphQL.Utilities;
 using API_Inventory.GraphQL.Queries;
+using Inventory.API.GraphQL.Mutations;
 
 namespace API_Inventory.GraphQL
 {
@@ -11,6 +12,7 @@ namespace API_Inventory.GraphQL
         public InventorySchema(IServiceProvider provider) : base(provider)
         {
             Query = provider.GetRequiredService<InventoryQuery>();
+            Mutation = provider.GetRequiredService<InventoryMutation>();
         }
     }
 }

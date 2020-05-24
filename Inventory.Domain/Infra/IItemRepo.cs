@@ -9,8 +9,8 @@ namespace Domain_Inventory.Infra
     public interface IItemRepo
     {
         Task<List<Item>> GetAll();
-        Task Add(List<Item> items);
+        Task<List<Item>> Add(List<Item> items);
         Task Remove(List<Guid> itemIds);
-        Task Update(List<Item> itemIds);
+        Task<List<Item>> Update(List<Item> itemIds);
     }
 }
